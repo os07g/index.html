@@ -48,10 +48,13 @@
             ]
         ];
         function startQuiz() {
-            let ip = localStorage.getItem('userIP');
-            if (ip) {
-                alert("لقد قمت بإجراء الاختبار بالفعل!");
-                return;
+            let adminAccess = localStorage.getItem('adminAccess');
+            if (!adminAccess) {
+                let ip = localStorage.getItem('userIP');
+                if (ip) {
+                    alert("لقد قمت بإجراء الاختبار بالفعل!");
+                    return;
+                }
             }
             fetch('https://api64.ipify.org?format=json')
                 .then(response => response.json())
@@ -64,6 +67,10 @@
                     window.location.href = 'quiz.html';
                 });
         }
+        function grantAdminAccess() {
+            localStorage.setItem('adminAccess', 'true');
+            alert("تم منحك وصول غير محدود إلى الاختبار!");
+        }
     </script>
 </head>
 <body>
@@ -71,6 +78,8 @@
         <h1>مرحبًا بك في اختبار سايبر بنك الديني</h1>
         <p>اختبار ديني بأسلوب سايبر بنك، لديك دقيقة ونصف فقط!</p>
         <button onclick="startQuiz()">ابدأ الاختبار</button>
+        <br><br>
+        <button onclick="grantAdminAccess()" style="background: red; color: white;">منح وصول غير محدود</button>
     </div>
 </body>
 </html>
