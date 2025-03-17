@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اختبار سايبر بنك الديني</title>
+    <title>الاختبار الديني - سايبر بنك</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        @import url('https://p4.wallpaperbetter.com/wallpaper/786/670/384/night-artwork-futuristic-city-science-fiction-wallpaper-preview.jpg');
         body {
             font-family: 'Orbitron', sans-serif;
-            background-image: url('https://wallpaperaccess.com/full/1154841.jpg'); /* خلفية مدينة سايبر بنك */
+            background-image: url(''); /* خلفية سايبر بنك */
             background-size: cover;
             color: #0ff;
             text-align: center;
@@ -16,10 +16,10 @@
         .container {
             max-width: 600px;
             margin: 100px auto;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.85);
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 15px #0ff;
+            box-shadow: 0 0 20px #0ff;
         }
         button {
             background: #0ff;
@@ -30,6 +30,7 @@
             border-radius: 5px;
             font-weight: bold;
             transition: 0.3s;
+            text-transform: uppercase;
         }
         button:hover {
             box-shadow: 0 0 20px #0ff;
@@ -46,7 +47,6 @@
                 {q: "ما هو اسم أول مسجد في الإسلام؟", a: "مسجد قباء", options: ["المسجد النبوي", "مسجد قباء", "المسجد الأقصى", "المسجد الحرام"]}
             ]
         ];
-
         function startQuiz() {
             let ip = localStorage.getItem('userIP');
             if (ip) {
@@ -69,78 +69,8 @@
 <body>
     <div class="container">
         <h1>مرحبًا بك في اختبار سايبر بنك الديني</h1>
-        <p>اختبار ديني في أجواء سايبر بنك، لديك دقيقة ونصف فقط!</p>
+        <p>اختبار ديني بأسلوب سايبر بنك، لديك دقيقة ونصف فقط!</p>
         <button onclick="startQuiz()">ابدأ الاختبار</button>
     </div>
-</body>
-</html>
-
-<!-- صفحة الاختبار -->
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الاختبار</title>
-    <script>
-        let quizSet = JSON.parse(localStorage.getItem('quizSet'));
-        let currentIndex = parseInt(localStorage.getItem('quizIndex'));
-        let score = parseInt(localStorage.getItem('score'));
-        let timer = 90;
-        function loadQuestion() {
-            if (currentIndex >= quizSet.length) {
-                localStorage.setItem('score', score);
-                window.location.href = 'result.html';
-                return;
-            }
-            let question = quizSet[currentIndex];
-            document.getElementById("question").innerText = question.q;
-            let options = document.getElementById("options");
-            options.innerHTML = "";
-            question.options.forEach(option => {
-                options.innerHTML += `<button onclick="checkAnswer('${option}')">${option}</button><br>`;
-            });
-        }
-        function checkAnswer(answer) {
-            if (answer === quizSet[currentIndex].a) score++;
-            currentIndex++;
-            localStorage.setItem('quizIndex', currentIndex);
-            loadQuestion();
-        }
-        setInterval(() => {
-            timer--;
-            document.getElementById("timer").innerText = `الوقت المتبقي: ${timer} ثانية`;
-            if (timer <= 0) {
-                localStorage.setItem('score', score);
-                window.location.href = 'result.html';
-            }
-        }, 1000);
-    </script>
-</head>
-<body onload="loadQuestion()">
-    <h1>اختبار ديني</h1>
-    <h2 id="timer">الوقت المتبقي: 90 ثانية</h2>
-    <div id="question"></div>
-    <div id="options"></div>
-</body>
-</html>
-
-<!-- صفحة النتيجة -->
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>النتيجة</title>
-    <script>
-        let finalScore = localStorage.getItem('score');
-        document.addEventListener("DOMContentLoaded", () => {
-            document.getElementById("score").innerText = `نتيجتك: ${finalScore} من 5`;
-        });
-    </script>
-</head>
-<body>
-    <h1>النتيجة النهائية</h1>
-    <h2 id="score"></h2>
 </body>
 </html>
