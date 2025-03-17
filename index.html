@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار سايبر بنك الديني</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('https://wallpaperaccess.com/full/1154841.jpg'); /* خلفية مدينة سايبر بنك */
+            background-size: cover;
+            color: cyan;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 100px auto;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px cyan;
+        }
+        button {
+            background: cyan;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+    <script>
+        function startQuiz() {
+            let ip = localStorage.getItem('userIP');
+            if (ip) {
+                alert("لقد قمت بإجراء الاختبار بالفعل!");
+                return;
+            }
+            fetch('https://api64.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    localStorage.setItem('userIP', data.ip);
+                    window.location.href = 'quiz.html';
+                });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>مرحبًا بك في اختبار سايبر بنك الديني</h1>
+        <p>اختبار ديني في أجواء سايبر بنك، لديك دقيقتان فقط!</p>
+        <button onclick="startQuiz()">ابدأ الاختبار</button>
+    </div>
+</body>
+</html>
+
+<!-- صفحة الاختبار -->
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الاختبار</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('https://wallpaperaccess.com/full/1154841.jpg');
+            background-size: cover;
+            color: cyan;
+            text-align: center;
+        }
+        .quiz-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px cyan;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .option {
+            display: block;
+            margin: 5px 0;
+        }
+        button {
+            background: cyan;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+    <script>
+        let questions = [
+            {q: "ما هو أول شيء خلقه الله؟", a: "القلم"},
+            {q: "كم عدد أركان الإسلام؟", a: "خمسة"},
+            {q: "ما هو اسم والدة النبي محمد؟", a: "آمنة بنت وهب"},
+            {q: "ما هو الكتاب السماوي الذي أنزل على النبي عيسى؟", a: "الإنجيل"},
+            {q: "ما هو اسم أول مسجد في الإسلام؟", a: "مسجد قباء"}
+        ];
+        let randomQuestion = questions[Math.floor(Math.random() * questions.length)];
+        function loadQuestion() {
+            document.getElementById("question").innerText = randomQuestion.q;
+        }
+        function submitAnswer() {
+            let userAnswer = document.querySelector('input[name="answer"]:checked').value;
+            if (userAnswer === randomQuestion.a) {
+                alert("إجابة صحيحة!");
+            } else {
+                alert("إجابة خاطئة!");
+            }
+        }
+    </script>
+</head>
+<body onload="loadQuestion()">
+    <div class="quiz-container">
+        <h1>اختبار ديني</h1>
+        <div class="question" id="question"></div>
+        <input type="radio" name="answer" value="القلم" class="option"> القلم <br>
+        <input type="radio" name="answer" value="العرش" class="option"> العرش <br>
+        <input type="radio" name="answer" value="الملائكة" class="option"> الملائكة <br>
+        <input type="radio" name="answer" value="الماء" class="option"> الماء <br>
+        <button onclick="submitAnswer()">إرسال الإجابة</button>
+    </div>
+</body>
+</html>
