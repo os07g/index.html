@@ -5,18 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الاختبار الديني - سايبر بنك</title>
     <style>
-        @import url('https://p4.wallpaperbetter.com/wallpaper/786/670/384/night-artwork-futuristic-city-science-fiction-wallpaper-preview.jpg');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
         body {
             font-family: 'Orbitron', sans-serif;
-            background-image: url(''); /* خلفية سايبر بنك */
+            background-image: url('https://wallpaperaccess.com/full/1901621.jpg'); /* خلفية سايبر بنك */
             background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             color: #0ff;
             text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
         .container {
             max-width: 600px;
-            margin: 100px auto;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.9);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 20px #0ff;
@@ -31,10 +38,17 @@
             font-weight: bold;
             transition: 0.3s;
             text-transform: uppercase;
+            margin: 10px;
+            display: block;
+            width: 100%;
         }
         button:hover {
             box-shadow: 0 0 20px #0ff;
             transform: scale(1.1);
+        }
+        .admin-btn {
+            background: red;
+            color: white;
         }
     </style>
     <script>
@@ -78,8 +92,7 @@
         <h1>مرحبًا بك في اختبار سايبر بنك الديني</h1>
         <p>اختبار ديني بأسلوب سايبر بنك، لديك دقيقة ونصف فقط!</p>
         <button onclick="startQuiz()">ابدأ الاختبار</button>
-        <br><br>
-        <button onclick="grantAdminAccess()" style="background: red; color: white;">منح وصول غير محدود</button>
+        <button class="admin-btn" onclick="grantAdminAccess()">منح وصول غير محدود</button>
     </div>
 </body>
 </html>
