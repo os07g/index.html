@@ -52,15 +52,6 @@
         }
     </style>
     <script>
-        let questionsSets = [
-            [
-                {q: "ما هو أول شيء خلقه الله؟", a: "القلم", options: ["القلم", "العرش", "الملائكة", "الماء"]},
-                {q: "كم عدد أركان الإسلام؟", a: "خمسة", options: ["ثلاثة", "خمسة", "سبعة", "أربعة"]},
-                {q: "ما هو اسم والدة النبي محمد؟", a: "آمنة بنت وهب", options: ["عائشة", "آمنة بنت وهب", "فاطمة", "حفصة"]},
-                {q: "ما هو الكتاب السماوي الذي أنزل على النبي عيسى؟", a: "الإنجيل", options: ["القرآن", "التوراة", "الإنجيل", "الزبور"]},
-                {q: "ما هو اسم أول مسجد في الإسلام؟", a: "مسجد قباء", options: ["المسجد النبوي", "مسجد قباء", "المسجد الأقصى", "المسجد الحرام"]}
-            ]
-        ];
         function startQuiz() {
             let adminAccess = localStorage.getItem('adminAccess');
             if (!adminAccess) {
@@ -74,10 +65,6 @@
                 .then(response => response.json())
                 .then(data => {
                     localStorage.setItem('userIP', data.ip);
-                    let randomSet = Math.floor(Math.random() * questionsSets.length);
-                    localStorage.setItem('quizSet', JSON.stringify(questionsSets[randomSet]));
-                    localStorage.setItem('quizIndex', '0');
-                    localStorage.setItem('score', '0');
                     window.location.href = 'quiz.html';
                 });
         }
@@ -94,5 +81,66 @@
         <button onclick="startQuiz()">ابدأ الاختبار</button>
         <button class="admin-btn" onclick="grantAdminAccess()">منح وصول غير محدود</button>
     </div>
+</body>
+</html>
+
+<!-- صفحة الاختبار -->
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الاختبار</title>
+    <script>
+        let questions = [
+            {q: "ما هو أول شيء خلقه الله؟", a: "القلم", options: ["القلم", "العرش", "الملائكة", "الماء"]},
+            {q: "كم عدد أركان الإسلام؟", a: "خمسة", options: ["ثلاثة", "خمسة", "سبعة", "أربعة"]},
+            {q: "ما هو اسم والدة النبي محمد؟", a: "آمنة بنت وهب", options: ["عائشة", "آمنة بنت وهب", "فاطمة", "حفصة"]}
+        ];
+        let index = 0;
+        let score = 0;
+        function loadQuestion() {
+            if (index >= questions.length) {
+                localStorage.setItem('score', score);
+                window.location.href = 'result.html';
+                return;
+            }
+            document.getElementById("question").innerText = questions[index].q;
+            let options = document.getElementById("options");
+            options.innerHTML = "";
+            questions[index].options.forEach(option => {
+                options.innerHTML += `<button onclick="checkAnswer('${option}')">${option}</button><br>`;
+            });
+        }
+        function checkAnswer(answer) {
+            if (answer === questions[index].a) score++;
+            index++;
+            loadQuestion();
+        }
+    </script>
+</head>
+<body onload="loadQuestion()">
+    <h1>اختبار ديني</h1>
+    <div id="question"></div>
+    <div id="options"></div>
+</body>
+</html>
+
+<!-- صفحة النتيجة -->
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>النتيجة</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("score").innerText = `نتيجتك: ${localStorage.getItem('score')} من 3`;
+        });
+    </script>
+</head>
+<body>
+    <h1>النتيجة النهائية</h1>
+    <h2 id="score"></h2>
 </body>
 </html>
