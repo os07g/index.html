@@ -5,31 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>اختبار سايبر بنك الديني</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Orbitron', sans-serif;
             background-image: url('https://wallpaperaccess.com/full/1154841.jpg'); /* خلفية مدينة سايبر بنك */
             background-size: cover;
-            color: cyan;
+            color: #0ff;
             text-align: center;
         }
         .container {
             max-width: 600px;
             margin: 100px auto;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 15px cyan;
+            box-shadow: 0 0 15px #0ff;
         }
         button {
-            background: cyan;
+            background: #0ff;
             border: none;
-            padding: 10px 20px;
+            padding: 15px 25px;
             font-size: 18px;
             cursor: pointer;
             border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        button:hover {
+            box-shadow: 0 0 20px #0ff;
+            transform: scale(1.1);
         }
     </style>
     <script>
+        let questionsSets = [
+            [
+                {q: "ما هو أول شيء خلقه الله؟", a: "القلم", options: ["القلم", "العرش", "الملائكة", "الماء"]},
+                {q: "كم عدد أركان الإسلام؟", a: "خمسة", options: ["ثلاثة", "خمسة", "سبعة", "أربعة"]},
+                {q: "ما هو اسم والدة النبي محمد؟", a: "آمنة بنت وهب", options: ["عائشة", "آمنة بنت وهب", "فاطمة", "حفصة"]},
+                {q: "ما هو الكتاب السماوي الذي أنزل على النبي عيسى؟", a: "الإنجيل", options: ["القرآن", "التوراة", "الإنجيل", "الزبور"]},
+                {q: "ما هو اسم أول مسجد في الإسلام؟", a: "مسجد قباء", options: ["المسجد النبوي", "مسجد قباء", "المسجد الأقصى", "المسجد الحرام"]}
+            ]
+        ];
+
         function startQuiz() {
             let ip = localStorage.getItem('userIP');
             if (ip) {
@@ -40,6 +57,10 @@
                 .then(response => response.json())
                 .then(data => {
                     localStorage.setItem('userIP', data.ip);
+                    let randomSet = Math.floor(Math.random() * questionsSets.length);
+                    localStorage.setItem('quizSet', JSON.stringify(questionsSets[randomSet]));
+                    localStorage.setItem('quizIndex', '0');
+                    localStorage.setItem('score', '0');
                     window.location.href = 'quiz.html';
                 });
         }
@@ -48,7 +69,7 @@
 <body>
     <div class="container">
         <h1>مرحبًا بك في اختبار سايبر بنك الديني</h1>
-        <p>اختبار ديني في أجواء سايبر بنك، لديك دقيقتان فقط!</p>
+        <p>اختبار ديني في أجواء سايبر بنك، لديك دقيقة ونصف فقط!</p>
         <button onclick="startQuiz()">ابدأ الاختبار</button>
     </div>
 </body>
@@ -61,69 +82,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الاختبار</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-image: url('https://wallpaperaccess.com/full/1154841.jpg');
-            background-size: cover;
-            color: cyan;
-            text-align: center;
-        }
-        .quiz-container {
-            max-width: 600px;
-            margin: 50px auto;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px cyan;
-        }
-        .question {
-            margin-bottom: 20px;
-        }
-        .option {
-            display: block;
-            margin: 5px 0;
-        }
-        button {
-            background: cyan;
-            border: none;
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-    </style>
     <script>
-        let questions = [
-            {q: "ما هو أول شيء خلقه الله؟", a: "القلم"},
-            {q: "كم عدد أركان الإسلام؟", a: "خمسة"},
-            {q: "ما هو اسم والدة النبي محمد؟", a: "آمنة بنت وهب"},
-            {q: "ما هو الكتاب السماوي الذي أنزل على النبي عيسى؟", a: "الإنجيل"},
-            {q: "ما هو اسم أول مسجد في الإسلام؟", a: "مسجد قباء"}
-        ];
-        let randomQuestion = questions[Math.floor(Math.random() * questions.length)];
+        let quizSet = JSON.parse(localStorage.getItem('quizSet'));
+        let currentIndex = parseInt(localStorage.getItem('quizIndex'));
+        let score = parseInt(localStorage.getItem('score'));
+        let timer = 90;
         function loadQuestion() {
-            document.getElementById("question").innerText = randomQuestion.q;
-        }
-        function submitAnswer() {
-            let userAnswer = document.querySelector('input[name="answer"]:checked').value;
-            if (userAnswer === randomQuestion.a) {
-                alert("إجابة صحيحة!");
-            } else {
-                alert("إجابة خاطئة!");
+            if (currentIndex >= quizSet.length) {
+                localStorage.setItem('score', score);
+                window.location.href = 'result.html';
+                return;
             }
+            let question = quizSet[currentIndex];
+            document.getElementById("question").innerText = question.q;
+            let options = document.getElementById("options");
+            options.innerHTML = "";
+            question.options.forEach(option => {
+                options.innerHTML += `<button onclick="checkAnswer('${option}')">${option}</button><br>`;
+            });
         }
+        function checkAnswer(answer) {
+            if (answer === quizSet[currentIndex].a) score++;
+            currentIndex++;
+            localStorage.setItem('quizIndex', currentIndex);
+            loadQuestion();
+        }
+        setInterval(() => {
+            timer--;
+            document.getElementById("timer").innerText = `الوقت المتبقي: ${timer} ثانية`;
+            if (timer <= 0) {
+                localStorage.setItem('score', score);
+                window.location.href = 'result.html';
+            }
+        }, 1000);
     </script>
 </head>
 <body onload="loadQuestion()">
-    <div class="quiz-container">
-        <h1>اختبار ديني</h1>
-        <div class="question" id="question"></div>
-        <input type="radio" name="answer" value="القلم" class="option"> القلم <br>
-        <input type="radio" name="answer" value="العرش" class="option"> العرش <br>
-        <input type="radio" name="answer" value="الملائكة" class="option"> الملائكة <br>
-        <input type="radio" name="answer" value="الماء" class="option"> الماء <br>
-        <button onclick="submitAnswer()">إرسال الإجابة</button>
-    </div>
+    <h1>اختبار ديني</h1>
+    <h2 id="timer">الوقت المتبقي: 90 ثانية</h2>
+    <div id="question"></div>
+    <div id="options"></div>
+</body>
+</html>
+
+<!-- صفحة النتيجة -->
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>النتيجة</title>
+    <script>
+        let finalScore = localStorage.getItem('score');
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("score").innerText = `نتيجتك: ${finalScore} من 5`;
+        });
+    </script>
+</head>
+<body>
+    <h1>النتيجة النهائية</h1>
+    <h2 id="score"></h2>
 </body>
 </html>
